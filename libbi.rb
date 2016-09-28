@@ -6,6 +6,7 @@ class Libbi < Formula
   sha256 "adc52bcdceff3851869fd89eec3504b013993a99cd9ea9c2aed3174675149b9f"
 
   depends_on "perl"
+  depends_on "thrust"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
