@@ -1,5 +1,5 @@
 # Homebrew LibBi
-Homebrew formulae for [LibBi](htp://libbi.org)
+[Homebrew](http://brew.sh/index.html) formulae for [LibBi](http://libbi.org)
 
 ## Installing LibBi
 
