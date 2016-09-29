@@ -23,14 +23,14 @@ class Thrust < Formula
         H[1] = 20;
         H[2] = 38;
         H[3] = 46;
-    
+
         H.resize(2);
 
         thrust::device_vector<int> D = H;
-    
+
         D[0] = 99;
         D[1] = 88;
-    
+
         return 0;
       }
     EOS
