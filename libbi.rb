@@ -11,6 +11,8 @@ class Libbi < Formula
   depends_on "gsl"
   depends_on "boost"
 
+  option "without-check", "Disable build-time checking (not recommended)"
+
   # disable openmp, currently not working on OSX
   patch :DATA
 
@@ -91,7 +93,7 @@ class Libbi < Formula
       resource(r).stage do
         system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
         system "make"
-        system "make", "test"
+        system "make", "test" if build.with? "check"
         system "make", "install"
       end
     end
@@ -104,7 +106,7 @@ class Libbi < Formula
 
     system "perl", "Makefile.pl", "INSTALL_BASE=#{libexec}"
     system "make"
-    system "make", "test"
+    system "make", "test" if build.with? "check"
     system "make", "install"
 
     bin.install libexec/"bin/libbi"
