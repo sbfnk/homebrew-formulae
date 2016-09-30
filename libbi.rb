@@ -147,3 +147,22 @@ index e60e8b6..68d2f19 100644
          _cuda => 0,
          _gpu_cache => 0,
          _sse => 0,
+diff --git a/share/configure.ac b/share/configure.ac
+index 3918429..aae9a44 100644
+--- a/share/configure.ac
++++ b/share/configure.ac
+@@ -113,8 +113,12 @@ AC_ARG_ENABLE([gperftools],
+ # Add standard CUDA directories
+ #if test x$cuda = xtrue; then
+ # ^ don't test, may be using Thrust bundled with CUDA, even for host
+-    CPPFLAGS="$CPPFLAGS -I/usr/local/cuda/include -I$CUDA_ROOT/include -DHAVE_CUBLAS" # -DHAVE_CUBLAS needed for MAGMA 1.4
+-    LDFLAGS="$LDFLAGS -L$CUDA_ROOT/lib64 -L$CUDA_ROOT/lib -L/usr/local/cuda/lib64 -L/usr/local/cuda/lib -Wl,-rpath,$CUDA_ROOT/lib64 -Wl,-rpath,$CUDA_ROOT/lib -Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib"
++    if test x$CUDA_ROOT != x; then
++      CPPFLAGS="$CPPFLAGS -I$CUDA_ROOT/include -DHAVE_CUBLAS" # -DHAVE_CUBLAS needed for MAGMA 1.4
++      LDFLAGS="$LDFLAGS -L$CUDA_ROOT/lib64 -L$CUDA_ROOT/lib -Wl,-rpath,$CUDA_ROOT/lib64 -Wl,-rpath,$CUDA_ROOT/lib"
++    fi
++    CPPFLAGS="$CPPFLAGS -I/usr/local/cuda/include"
++    LDFLAGS="$LDFLAGS -L/usr/local/cuda/lib64 -L/usr/local/cuda/lib -Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib"
+ #fi
+ 
+ # Compilers etc
