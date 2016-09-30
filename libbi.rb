@@ -12,6 +12,7 @@ class Libbi < Formula
   depends_on "homebrew/science/netcdf"
   depends_on "gsl"
   depends_on "boost"
+  depends_on "automake"
 
   # disable openmp, currently not working on OSX
   patch :DATA
