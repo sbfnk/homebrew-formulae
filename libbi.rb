@@ -105,6 +105,11 @@ class Libbi < Formula
     end
 
     system "perl", "Makefile.pl", "INSTALL_BASE=#{libexec}"
+
+    if (MacOS::CLT.installed? || MacOS::Xcode.installed?) && MacOS::Xcode.version > "6.3"
+      inreplace "Makefile", " -fstack-protector-strong", ""
+    end
+
     system "make"
     system "make", "test" if build.with? "test"
     system "make", "install"
