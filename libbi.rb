@@ -5,13 +5,13 @@ class Libbi < Formula
   sha256 "57566aff0b752dd55356c21b818295e3a54ad893bc6aff97d267ff7bcf2d0b68"
   head "https://github.com/libbi/LibBi.git"
 
+  option "without-test", "Disable build-time checking (not recommended)"
+
   depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
   depends_on "boost"
-
-  option "without-check", "Disable build-time checking (not recommended)"
 
   # disable openmp, currently not working on OSX
   patch :DATA
@@ -93,7 +93,7 @@ class Libbi < Formula
       resource(r).stage do
         system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
         system "make"
-        system "make", "test" if build.with? "check"
+        system "make", "test" if build.with? "test"
         system "make", "install"
       end
     end
@@ -106,7 +106,7 @@ class Libbi < Formula
 
     system "perl", "Makefile.pl", "INSTALL_BASE=#{libexec}"
     system "make"
-    system "make", "test" if build.with? "check"
+    system "make", "test" if build.with? "test"
     system "make", "install"
 
     bin.install libexec/"bin/libbi"
@@ -114,7 +114,7 @@ class Libbi < Formula
   end
 
   test do
-    system "#{libexec}/bin/libbi"
+    system "libbi"
   end
 end
 
