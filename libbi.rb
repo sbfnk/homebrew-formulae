@@ -8,8 +8,8 @@ class Libbi < Formula
   option "without-test", "Disable build-time checking (not recommended)"
 
   depends_on "perl"
-  depends_on "qrupdate"
-  depends_on "netcdf"
+  depends_on "homebrew/science/qrupdate"
+  depends_on "homebrew/science/netcdf"
   depends_on "gsl"
   depends_on "boost"
 
