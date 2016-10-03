@@ -4,6 +4,7 @@
 ## Installing LibBi
 
 ```
+brew tap homebrew/science
 brew tap sbfnk/libbi
 brew install libbi
 ```
