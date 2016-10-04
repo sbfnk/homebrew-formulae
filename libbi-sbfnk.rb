@@ -1,9 +1,7 @@
-class Libbi < Formula
-  desc "Bayesian state-space modelling on parallel computer hardware"
-  homepage "http://libbi.org"
-  url "https://github.com/libbi/LibBi/archive/1.2.0.tar.gz"
+class LibbiSbfnk < Formula
+  desc "Bayesian state-space modelling on parallel computer hardware (sbfnk fork, install with --HEAD)"
   sha256 "57566aff0b752dd55356c21b818295e3a54ad893bc6aff97d267ff7bcf2d0b68"
-  head "https://github.com/libbi/LibBi.git"
+  head "https://github.com/sbfnk/LibBi.git"
 
   option "without-test", "Disable build-time checking (not recommended)"
 
@@ -13,6 +11,8 @@ class Libbi < Formula
   depends_on "gsl"
   depends_on "boost"
   depends_on "automake"
+
+  conflicts_with "libbi"
 
   # disable openmp, currently not working on OSX
   patch :DATA
