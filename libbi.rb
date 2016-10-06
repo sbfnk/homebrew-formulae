@@ -7,7 +7,7 @@ class Libbi < Formula
 
   option "without-test", "Disable build-time checking (not recommended)"
 
-  depends_on "perl"
+  depends_on :perl => "5.10"
   depends_on "homebrew/science/qrupdate"
   depends_on "homebrew/science/netcdf"
   depends_on "gsl"
@@ -83,7 +83,6 @@ class Libbi < Formula
   end
 
   def install
-    ENV.prepend_path "PATH", Formula["perl"].bin
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
     ENV.append "CPPFLAGS", "-I#{include}"
 
