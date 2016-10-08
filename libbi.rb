@@ -17,19 +17,14 @@ class Libbi < Formula
 
   needs :openmp if build.with? "openmp"
 
-  # disable OpenMP if it is not used
   patch do
-    url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
-    sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
-  end if !build.with? "openmp"
-
-  # patches to work in case CUDA is not installed
-  patch do
+    # patch for thrust to work in case CUDA is not installed
     url "https://github.com/libbi/LibBi/pull/8.diff"
     sha256 "cd3aec69ec9aa05fc5ed1d9ccaead9494f9ce4d580577c51b3e8acb63273663b"
   end
 
   head do
+    # fix to work if CUDA_ROOT is not set
     patch do
       url "https://github.com/libbi/LibBi/pull/9.diff"
       sha256 "80746f04740c0730d241418014c37857303f126cf2ed48f55b44b597386e85a2"
@@ -37,10 +32,17 @@ class Libbi < Formula
   end
 
   stable do
+    # fix to work if CUDA_ROOT is not set
     patch do
       url "https://github.com/sbfnk/LibBi/commit/f8d31b6a7c5d3534cf3c6ff99631e2d484bcd2ff.diff"
       sha256 "5cb89fbe1d6e522e7d27cc1de14f2f25675bdd4cf47bfa3180656dc63230dc0d"
     end
+    # disable OpenMP if it is not used
+    patch do
+      url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
+      sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
+    end if !build.with? "openmp"
+
   end
 
   resource "Getopt::ArgvFile" do
@@ -148,31 +150,3 @@ class Libbi < Formula
     system "libbi"
   end
 end
-
-__END__
-diff --git a/share/configure.ac b/share/configure.ac
-index c53b8ec..9451efb 100644
---- a/share/configure.ac
-+++ b/share/configure.ac
-@@ -144,6 +144,20 @@ if test x$openmp = xtrue; then
-   AC_OPENMP
- fi
-
-+# Thrust backend
-+if test x$cuda = xtrue; then
-+  AC_DEFINE([THRUST_DEVICE_SYSTEM], [THRUST_DEVICE_SYSTEM_CUDA])
-+else
-+  AC_DEFINE([THRUST_DEVICE_SYSTEM], [THRUST_DEVICE_SYSTEM_CPP])
-+fi
-+if test x$openmp = xtrue; then
-+  AC_DEFINE([THRUST_HOST_SYSTEM], [THRUST_HOST_SYSTEM_OMP])
-+else
-+  AC_DEFINE([THRUST_HOST_SYSTEM], [THRUST_HOST_SYSTEM_CPP])
-+fi
-+# ^ OpenMP in Thrust 1.6 very slow, but seems to have been rectified in
-+#   Thrust 1.7, so its OpenMP backend has been re-enabled.
-+
- # Checks of programs
- if test x$mpi = xtrue; then
-     if test x$vampir = xtrue; then
-
