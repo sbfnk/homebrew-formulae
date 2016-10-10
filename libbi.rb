@@ -6,6 +6,7 @@ class Libbi < Formula
   head "https://github.com/libbi/LibBi.git"
 
   option "without-test", "Disable build-time checking (not recommended)"
+  option "without-openmp", "Disable OpenMP"
 
   depends_on :perl => "5.10"
   depends_on "homebrew/science/qrupdate"
@@ -14,8 +15,35 @@ class Libbi < Formula
   depends_on "boost"
   depends_on "automake"
 
-  # disable openmp, currently not working on OSX
-  patch :DATA
+  needs :openmp if build.with? "openmp"
+
+  patch do
+    # patch for thrust to work in case CUDA is not installed
+    url "https://github.com/libbi/LibBi/pull/8.diff"
+    sha256 "cd3aec69ec9aa05fc5ed1d9ccaead9494f9ce4d580577c51b3e8acb63273663b"
+  end
+
+  head do
+    # fix to work if CUDA_ROOT is not set
+    patch do
+      url "https://github.com/libbi/LibBi/pull/9.diff"
+      sha256 "80746f04740c0730d241418014c37857303f126cf2ed48f55b44b597386e85a2"
+    end
+  end
+
+  stable do
+    # fix to work if CUDA_ROOT is not set
+    patch do
+      url "https://github.com/sbfnk/LibBi/commit/f8d31b6a7c5d3534cf3c6ff99631e2d484bcd2ff.diff"
+      sha256 "5cb89fbe1d6e522e7d27cc1de14f2f25675bdd4cf47bfa3180656dc63230dc0d"
+    end
+    # disable OpenMP if it is not used
+    patch do
+      url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
+      sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
+    end if !build.with? "openmp"
+
+  end
 
   resource "Getopt::ArgvFile" do
     url "http://search.cpan.org/CPAN/authors/id/J/JS/JSTENZEL/Getopt-ArgvFile-1.11.tar.gz"
@@ -106,62 +134,19 @@ class Libbi < Formula
 
     system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
 
-    if (MacOS::CLT.installed? || MacOS::Xcode.installed?) && MacOS::Xcode.version > "6.3"
-      inreplace "Makefile", " -fstack-protector-strong", ""
-    end
+##    if (MacOS::CLT.installed? || MacOS::Xcode.installed?) && MacOS::Xcode.version > "6.3"
+##      inreplace "Makefile", " -fstack-protector-strong", ""
+##    end
 
     system "make"
     system "make", "test" if build.with? "test"
     system "make", "install"
 
     bin.install libexec/"bin/libbi"
-    bin.env_script_all_files(libexec/"bin", :PERL5LIB => ENV["PERL5LIB"], :CPPFLAGS => ENV["CPPFLAGS"])
+    bin.env_script_all_files(libexec/"bin", :PERL5LIB => ENV["PERL5LIB"], :CPPFLAGS => ENV["CPPFLAGS"], :CXX => ENV["CXX"])
   end
 
   test do
     system "libbi"
   end
 end
-
-__END__
-diff --git a/lib/Bi/Builder.pm b/lib/Bi/Builder.pm
-index e60e8b6..68d2f19 100644
---- a/lib/Bi/Builder.pm
-+++ b/lib/Bi/Builder.pm
-@@ -59,7 +59,7 @@ Enable diagnostic outputs to standard error.
- 
- Use single-precision floating point.
- 
--=item C<--enable-openmp> (default on)
-+=item C<--enable-openmp> (default off)
- 
- Use OpenMP multithreading.
- 
-@@ -139,7 +139,7 @@ sub new {
-         _force => 0,
-         _warnings => 0,
-         _assert => 1,
--        _openmp => 1,
-+        _openmp => 0,
-         _cuda => 0,
-         _gpu_cache => 0,
-         _sse => 0,
-diff --git a/share/configure.ac b/share/configure.ac
-index 3918429..aae9a44 100644
---- a/share/configure.ac
-+++ b/share/configure.ac
-@@ -113,8 +113,12 @@ AC_ARG_ENABLE([gperftools],
- # Add standard CUDA directories
- #if test x$cuda = xtrue; then
- # ^ don't test, may be using Thrust bundled with CUDA, even for host
--    CPPFLAGS="$CPPFLAGS -I/usr/local/cuda/include -I$CUDA_ROOT/include -DHAVE_CUBLAS" # -DHAVE_CUBLAS needed for MAGMA 1.4
--    LDFLAGS="$LDFLAGS -L$CUDA_ROOT/lib64 -L$CUDA_ROOT/lib -L/usr/local/cuda/lib64 -L/usr/local/cuda/lib -Wl,-rpath,$CUDA_ROOT/lib64 -Wl,-rpath,$CUDA_ROOT/lib -Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib"
-+    if test x$CUDA_ROOT != x; then
-+      CPPFLAGS="$CPPFLAGS -I$CUDA_ROOT/include -DHAVE_CUBLAS" # -DHAVE_CUBLAS needed for MAGMA 1.4
-+      LDFLAGS="$LDFLAGS -L$CUDA_ROOT/lib64 -L$CUDA_ROOT/lib -Wl,-rpath,$CUDA_ROOT/lib64 -Wl,-rpath,$CUDA_ROOT/lib"
-+    fi
-+    CPPFLAGS="$CPPFLAGS -I/usr/local/cuda/include"
-+    LDFLAGS="$LDFLAGS -L/usr/local/cuda/lib64 -L/usr/local/cuda/lib -Wl,-rpath,/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib"
- #fi
- 
- # Compilers etc
