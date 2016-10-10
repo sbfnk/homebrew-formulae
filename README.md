@@ -8,6 +8,5 @@ Install [Homebrew](http://brew.sh) (on OS X) or [Linuxbrew](http://linuxbrew.sh)
 
 ```
 brew tap homebrew/science
-brew tap sbfnk/libbi
 brew install libbi
 ```
