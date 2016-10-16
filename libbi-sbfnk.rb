@@ -1,4 +1,4 @@
-class Libbi < Formula
+class Libbi-sbfnk < Formula
   desc "Bayesian state-space modelling on parallel computer hardware (sbfnk fork, install with --HEAD)"
   homepage "http://libbi.org"
 
