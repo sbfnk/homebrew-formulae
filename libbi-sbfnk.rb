@@ -47,6 +47,8 @@ class LibbiSbfnk < Formula
   depends_on "boost"
   depends_on "automake"
 
+  conflicts_with "libbi"
+
   resource "Getopt::ArgvFile" do
     url "http://search.cpan.org/CPAN/authors/id/J/JS/JSTENZEL/Getopt-ArgvFile-1.11.tar.gz"
     sha256 "3709aa513ce6fd71d1a55a02e34d2f090017d5350a9bd447005653c9b0835b22"
