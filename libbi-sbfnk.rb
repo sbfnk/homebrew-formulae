@@ -1,6 +1,7 @@
 class LibbiSbfnk < Formula
   desc "Bayesian state-space modelling on parallel computer hardware (sbfnk fork, install with --HEAD)"
   homepage "http://libbi.org"
+  revision 1
 
   stable do
     url "https://github.com/libbi/LibBi/archive/1.2.0.tar.gz"
@@ -26,9 +27,9 @@ class LibbiSbfnk < Formula
   end
   bottle do
     cellar :any
-    sha256 "6b6fcc8d95053807a1a4f084276a9896ea42faf2ddca8ab0c46a8b32394309cc" => :sierra
-    sha256 "c2f6d7c8f6d13cbcc852658285c29031b6985f7895d64882f454a413cfbdd394" => :el_capitan
-    sha256 "83ae940a4cbf044e6b87d9daf00c4e0288b43157a92f4a49319b83eab0832a88" => :yosemite
+    sha256 "91e73d75d7a4be9772f609e0f1d221b46e026971200a1cd7f5cfafab9ef9b7b8" => :sierra
+    sha256 "dc4d64e9223d4d6bc1db73c7a5cb4dd5565aabee228ccf7b177141e46b95b247" => :el_capitan
+    sha256 "221d0a9fdf8c9190519425fe6779345756eece6260e2f0b7fd62ef4c6fa9f614" => :yosemite
   end
 
   head do
@@ -117,6 +118,7 @@ class LibbiSbfnk < Formula
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
     ENV.append "CPPFLAGS", "-I#{include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib}"
 
     perl_resources = [] << "Getopt::ArgvFile" << "Carp::Assert" << "File::Slurp" << "Parse::Yapp" << "Parse::Template" << "Parse::Lex" << "Parse::RecDescent" << "Math::Symbolic" << "Class::Inspector" << "File::ShareDir" << "Template" << "Graph"
     include_resources = [] << "thrust"
@@ -145,7 +147,7 @@ class LibbiSbfnk < Formula
     bin.install libexec/"bin/libbi"
     (libexec/"share/test").install "Test.bi", "test.conf"
     perl_dir = `dirname $(which perl)`
-    bin.env_script_all_files(libexec/"bin", :PATH => perl_dir.chomp.concat(":\$PATH"), :PERL5LIB => ENV["PERL5LIB"], :CPPFLAGS => ENV["CPPFLAGS"], :CXX => ENV["CXX"])
+    bin.env_script_all_files(libexec/"bin", :PATH => perl_dir.chomp.concat(":\$PATH"), :PERL5LIB => ENV["PERL5LIB"], :CPPFLAGS => "\$CPPFLAGS -I#{HOMEBREW_PREFIX}/include", :LDFLAGS => "\$LDFLAGS -L#{HOMEBREW_PREFIX}/lib", :CXX => ENV["CXX"])
   end
 
   def caveats; <<-EOS.undent
@@ -156,7 +158,7 @@ class LibbiSbfnk < Formula
   test do
     cp Dir[libexec/"share/test/*"], testpath
     cd testpath do
-      system "libbi", "sample", "@test.conf"
+      system "#{bin}/libbi", "sample", "@test.conf"
     end
   end
 end
