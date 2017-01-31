@@ -35,7 +35,12 @@ class Libbi < Formula
   depends_on "boost"
   depends_on "automake" => :run
 
-  resource "Getopt::ArgvFile" do
+  resource "Test::Simple" do
+    url "http://search.cpan.org/CPAN/authors/id/E/EX/EXODIST/Test-Simple-1.302075.tar.gz"
+    sha256 "86f2205498f96302e00331ac586bf366547e946e8637ad208d6317a2097d40b7"
+  end
+
+ resource "Getopt::ArgvFile" do
     url "http://search.cpan.org/CPAN/authors/id/J/JS/JSTENZEL/Getopt-ArgvFile-1.11.tar.gz"
     sha256 "3709aa513ce6fd71d1a55a02e34d2f090017d5350a9bd447005653c9b0835b22"
   end
@@ -63,11 +68,6 @@ class Libbi < Formula
   resource "Parse::Lex" do
     url "http://search.cpan.org/CPAN/authors/id/P/PS/PSCUST/ParseLex-2.21.tar.gz"
     sha256 "f55f0a7d1e2a6b806a47840c81c16d505c5c76765cb156e5f5fd703159a4492d"
-  end
-
-  resource "ExtUtils::MakeMaker" do
-    url "http://search.cpan.org/CPAN/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-6.98.tar.gz"
-    sha256 "2eb023189e5fa6b9dcc66858b1fde953d1f1b86f971ec5ab42dd36c172da63ef"
   end
 
   resource "Parse::RecDescent" do
@@ -107,10 +107,13 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
-    ENV.append "CPPFLAGS", "-I#{include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib}"
+    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}"
+    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}64"
 
-    perl_resources = [] << "Getopt::ArgvFile" << "Carp::Assert" << "File::Slurp" << "ExtUtils::MakeMaker" << "Parse::Yapp" << "Parse::Template" << "Parse::Lex" << "Parse::RecDescent" << "Math::Symbolic" << "Class::Inspector" << "File::ShareDir" << "Template" << "Graph"
+    ENV.append "CPPFLAGS", "-I#{include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib} -L#{Formula["netcdf"].lib} -L#{Formula["netcdf"].lib}64"
+
+   perl_resources = [] << "Test::Simple" << "Getopt::ArgvFile" << "Carp::Assert" << "File::Slurp" << "Parse::Yapp" << "Parse::Template" << "Parse::Lex" << "Parse::RecDescent" << "Math::Symbolic" << "Class::Inspector" << "File::ShareDir" << "Template" << "Graph"
     include_resources = [] << "thrust"
 
     perl_resources.each do |r|
@@ -128,7 +131,7 @@ class Libbi < Formula
       end
     end
 
-    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "LDFLAGS="+ENV["LDFLAGS"]
 
     system "make"
     system "make", "test" if build.with? "test"
