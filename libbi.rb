@@ -4,6 +4,11 @@ class Libbi < Formula
   revision 2
   head "https://github.com/libbi/LibBi.git"
 
+  patch do
+    url "https://gist.githubusercontent.com/sbfnk/0ae680cc29a7296d897d6f6c1a1a8aa4/raw/41c29123bd2ea19c1afe0d6fb65c4cfbdf4e2ae7/test.diff"
+    sha256 "45733f5c53d282b23e75b0699c7e2276e96b54249ce65f8ed517d5a47d39dab8"
+  end
+
   stable do
     url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
     sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
@@ -71,8 +76,8 @@ class Libbi < Formula
   end
 
   resource "Parse::RecDescent" do
-    url "http://search.cpan.org/CPAN/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967013.tar.gz"
-    sha256 "226590d3850cd1678deb0190d5207b3477fb9070a8ca6f18d8999daf44485930"
+    url "http://search.cpan.org/CPAN/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967003.tar.gz"
+    sha256 "d4dac8dad012a7eef271a0ac8ec399f9e3b0b53902644df9c208daef8b4b7f0a"
   end
 
   resource "Math::Symbolic" do
