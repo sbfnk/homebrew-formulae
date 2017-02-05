@@ -1,33 +1,29 @@
 class LibbiSbfnk < Formula
   desc "Bayesian state-space modelling on parallel computer hardware (sbfnk fork, install with --HEAD)"
   homepage "http://libbi.org"
-  revision 1
-
-  stable do
-    url "https://github.com/libbi/LibBi/archive/1.2.0.tar.gz"
-    sha256 "57566aff0b752dd55356c21b818295e3a54ad893bc6aff97d267ff7bcf2d0b68"
-
-    patch do
-      # patch for thrust to work in case CUDA is not installed
-      url "https://github.com/libbi/LibBi/pull/8.diff"
-      sha256 "cd3aec69ec9aa05fc5ed1d9ccaead9494f9ce4d580577c51b3e8acb63273663b"
-    end
-
-    patch do
-      # fix to work if CUDA_ROOT is not set
-      url "https://github.com/sbfnk/LibBi/commit/f8d31b6a7c5d3534cf3c6ff99631e2d484bcd2ff.diff"
-      sha256 "5cb89fbe1d6e522e7d27cc1de14f2f25675bdd4cf47bfa3180656dc63230dc0d"
-    end
-
-    patch do
-      # disable OpenMP if it is not used
-      url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
-      sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
-    end if build.without? "openmp"
-  end
+  revision 2
 
   head do
     url "https://github.com/sbfnk/LibBi.git"
+  end
+
+  stable do
+    url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
+    sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
+
+    if build.without? "openmp"
+      patch do
+        # disable OpenMP if it is not used
+        url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
+        sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
+      end
+    end
+  end
+  bottle do
+    cellar :any
+    sha256 "f092c7e56d4202eebba795ef5941b0fc63e5dcbb5bae078e3b7264f994337aa8" => :sierra
+    sha256 "c5bf036f21ca75bd83f5a20935d9d9334b282f2a7782995797d4045ef7131fec" => :el_capitan
+    sha256 "ce6ef3a2d77d7d8d0d79fe78239d9d3132a9e5757a908a8f7d1f411461a4b662" => :yosemite
   end
 
   option "without-test", "Disable build-time checking (not recommended)"
@@ -36,13 +32,16 @@ class LibbiSbfnk < Formula
   needs :openmp if build.with? "openmp"
 
   depends_on :perl => "5.10"
-  depends_on "homebrew/science/qrupdate"
-  depends_on "homebrew/science/netcdf"
+  depends_on "qrupdate"
+  depends_on "netcdf"
   depends_on "gsl"
   depends_on "boost"
-  depends_on "automake"
+  depends_on "automake" => :run
 
-  conflicts_with "libbi"
+  resource "Test::Simple" do
+    url "http://search.cpan.org/CPAN/authors/id/E/EX/EXODIST/Test-Simple-1.302075.tar.gz"
+    sha256 "86f2205498f96302e00331ac586bf366547e946e8637ad208d6317a2097d40b7"
+  end
 
   resource "Getopt::ArgvFile" do
     url "http://search.cpan.org/CPAN/authors/id/J/JS/JSTENZEL/Getopt-ArgvFile-1.11.tar.gz"
@@ -75,8 +74,8 @@ class LibbiSbfnk < Formula
   end
 
   resource "Parse::RecDescent" do
-    url "http://search.cpan.org/CPAN/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967013.tar.gz"
-    sha256 "226590d3850cd1678deb0190d5207b3477fb9070a8ca6f18d8999daf44485930"
+    url "http://search.cpan.org/CPAN/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967003.tar.gz"
+    sha256 "d4dac8dad012a7eef271a0ac8ec399f9e3b0b53902644df9c208daef8b4b7f0a"
   end
 
   resource "Math::Symbolic" do
@@ -111,28 +110,29 @@ class LibbiSbfnk < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
+    ENV.prepend_create_path "LD_LIBRARY_PATH", Formula["netcdf"].lib
+    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}64" if OS.linux?
+
     ENV.append "CPPFLAGS", "-I#{include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib}"
+    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib} -L#{Formula["netcdf"].lib}"
+    ENV.append "LDFLAGS", "-L#{Formula["netcdf"].lib}64" if OS.linux?
 
-    perl_resources = [] << "Getopt::ArgvFile" << "Carp::Assert" << "File::Slurp" << "Parse::Yapp" << "Parse::Template" << "Parse::Lex" << "Parse::RecDescent" << "Math::Symbolic" << "Class::Inspector" << "File::ShareDir" << "Template" << "Graph"
-    include_resources = [] << "thrust"
-
-    perl_resources.each do |r|
-      resource(r).stage do
-        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    resources.each do |r|
+      r.stage do
+        next if r.name == "thrust"
+        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
+        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
       end
     end
 
-    include_resources.each do |r|
-      resource(r).stage do
-        (include/r).install Dir["*"]
-      end
+    resource("thrust").stage do
+      (include/"thrust").install Dir["*"]
     end
 
-    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "LDFLAGS=#{ENV["LDFLAGS"]}"
 
     system "make"
     system "make", "test" if build.with? "test"
