@@ -7,16 +7,11 @@ class LibbiSbfnk < Formula
     url "https://github.com/sbfnk/LibBi.git"
   end
 
-  stable do
-    url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
-    sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
-
-    if build.without? "openmp"
-      patch do
-        # disable OpenMP if it is not used
-        url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
-        sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
-      end
+  if build.without? "openmp"
+    patch do
+      # disable OpenMP if it is not used
+      url "https://github.com/sbfnk/LibBi/commit/df6fbc815cc4c2c52f9a6bcbffc01bd82f9674fd.diff"
+      sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
     end
   end
   bottle do
