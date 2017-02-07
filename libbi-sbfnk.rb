@@ -38,6 +38,8 @@ class LibbiSbfnk < Formula
   depends_on "boost"
   depends_on "automake" => :run
 
+  conflicts_with "libbi", :because => "only one version of libbi can be installed at any time"
+
   resource "Test::Simple" do
     url "http://search.cpan.org/CPAN/authors/id/E/EX/EXODIST/Test-Simple-1.302075.tar.gz"
     sha256 "86f2205498f96302e00331ac586bf366547e946e8637ad208d6317a2097d40b7"
