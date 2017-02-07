@@ -4,11 +4,6 @@ class Libbi < Formula
   revision 2
   head "https://github.com/libbi/LibBi.git"
 
-  patch do
-    url "https://gist.githubusercontent.com/sbfnk/0ae680cc29a7296d897d6f6c1a1a8aa4/raw/41c29123bd2ea19c1afe0d6fb65c4cfbdf4e2ae7/test.diff"
-    sha256 "45733f5c53d282b23e75b0699c7e2276e96b54249ce65f8ed517d5a47d39dab8"
-  end
-
   stable do
     url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
     sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
@@ -45,7 +40,7 @@ class Libbi < Formula
     sha256 "86f2205498f96302e00331ac586bf366547e946e8637ad208d6317a2097d40b7"
   end
 
- resource "Getopt::ArgvFile" do
+  resource "Getopt::ArgvFile" do
     url "http://search.cpan.org/CPAN/authors/id/J/JS/JSTENZEL/Getopt-ArgvFile-1.11.tar.gz"
     sha256 "3709aa513ce6fd71d1a55a02e34d2f090017d5350a9bd447005653c9b0835b22"
   end
@@ -112,31 +107,29 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
-    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}"
-    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}64"
+    ENV.prepend_create_path "LD_LIBRARY_PATH", Formula["netcdf"].lib
+    ENV.prepend_create_path "LD_LIBRARY_PATH", "#{Formula["netcdf"].lib}64" if OS.linux?
 
     ENV.append "CPPFLAGS", "-I#{include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib} -L#{Formula["netcdf"].lib} -L#{Formula["netcdf"].lib}64"
+    ENV.append "LDFLAGS", "-L#{Formula["qrupdate"].lib} -L#{Formula["netcdf"].lib}"
+    ENV.append "LDFLAGS", "-L#{Formula["netcdf"].lib}64" if OS.linux?
 
-   perl_resources = [] << "Test::Simple" << "Getopt::ArgvFile" << "Carp::Assert" << "File::Slurp" << "Parse::Yapp" << "Parse::Template" << "Parse::Lex" << "Parse::RecDescent" << "Math::Symbolic" << "Class::Inspector" << "File::ShareDir" << "Template" << "Graph"
-    include_resources = [] << "thrust"
-
-    perl_resources.each do |r|
-      resource(r).stage do
-        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    resources.each do |r|
+      r.stage do
+        next if r.name == "thrust"
+        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
+        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
       end
     end
 
-    include_resources.each do |r|
-      resource(r).stage do
-        (include/r).install Dir["*"]
-      end
+    resource("thrust").stage do
+      (include/"thrust").install Dir["*"]
     end
 
-    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "LDFLAGS="+ENV["LDFLAGS"]
+    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "LDFLAGS=#{ENV["LDFLAGS"]}"
 
     system "make"
     system "make", "test" if build.with? "test"
