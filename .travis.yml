@@ -71,10 +71,10 @@ before_install:
   - env | grep TRAVIS | tee /tmp/travis.env
   - ulimit -n 1024
   - brew tap linuxbrew/xorg
+  - brew tap homebrew/science
+  - export HOMEBREW_NO_GITHUB_API=1
 
 script:
-  - brew tap linuxbrew/xorg
-  - brew tap homebrew/science
   - brew test-bot
 
 notifications:
