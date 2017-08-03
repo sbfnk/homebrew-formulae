@@ -123,13 +123,14 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
-    perlbin = Formula["perl"].bin
+    perl_dir = Formula["perl"].bin
+    perl = perl_dir.concat("/perl")
 
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system perlbin, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
+        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
@@ -140,7 +141,7 @@ class Libbi < Formula
       (include/"thrust").install Dir["*"]
     end
 
-    system perlbin, "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"
 
     system "make"
     delete("t/010_cpu.t") # remove test that fails in superenv
@@ -149,7 +150,6 @@ class Libbi < Formula
 
     bin.install libexec/"bin/libbi"
     (libexec/"share/test").install "Test.bi", "test.conf"
-    perl_dir = DIR[perlbin]
     bin.env_script_all_files(libexec/"bin", :PATH => perl_dir.chomp.concat(":\$PATH"), :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"), :CPPFLAGS => "\$CPPFLAGS -I#{HOMEBREW_PREFIX}/include", :LDFLAGS => "\$LDFLAGS -L#{HOMEBREW_PREFIX}/lib", :LD_LIBRARY_PATH => "#{HOMEBREW_PREFIX}/lib:\$LD_LIBRARY_PATH", :CXX => ENV["CXX"])
   end
 
