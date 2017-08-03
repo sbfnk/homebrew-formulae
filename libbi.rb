@@ -124,7 +124,7 @@ class Libbi < Formula
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
     perl_dir = Formula["perl"].bin
-    perl = perl_dir.concat("/perl")
+    perl = perl_dir + "/perl"
 
     resources.each do |r|
       r.stage do
