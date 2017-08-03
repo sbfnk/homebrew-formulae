@@ -17,8 +17,6 @@ class Libbi < Formula
     end
   end
 
-  bottle :disable, "Perl dependencies require this to be installed with the same perl version as it's run with"
-
   option "without-test", "Disable build-time checking (not recommended)"
   option "without-openmp", "Disable OpenMP"
 
@@ -26,19 +24,14 @@ class Libbi < Formula
 
   env :std
 
-  depends_on :perl => "5.10"
+  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
   depends_on "boost"
   depends_on "automake" => :run
 
-  resource "ExtUtils::MakeMaker" do
-    url "https://www.cpan.org/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-7.30.tar.gz"
-    sha256 "e081a8aa61c56565746bee998bf4c32926c030b84bb3f206e81714a1707f393c"
-  end
-
-  resource "Test::Simple" do
+ resource "Test::Simple" do
     url "http://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302086.tar.gz"
     sha256 "21e4c93c52529a10ef970afcf2cdb5719bcfef5f71af09cad3675fcf021995b1"
   end
