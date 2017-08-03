@@ -20,6 +20,8 @@ class LibbiSbfnk < Formula
 
   needs :openmp if build.with? "openmp"
 
+  conflicts_with "libbi"
+
   depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
