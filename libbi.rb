@@ -24,7 +24,7 @@ class Libbi < Formula
 
   env :std
 
-##  depends_on "perl"
+  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
