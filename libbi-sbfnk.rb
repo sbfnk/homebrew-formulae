@@ -14,22 +14,13 @@ class LibbiSbfnk < Formula
       sha256 "7c0785c5337bcdd8dac9e90e0c37b7766d579684d48abac35974fb5fde67d6b5"
     end
   end
-  bottle do
-    cellar :any
-    sha256 "1c80eb9be120c3ea6eb0e1d637311988280896594b21df2d7d1bac0c6b62c53a" => :sierra
-    sha256 "2148c03945b5464698f1f4fb99fefaa720942967030bc19f6c39c524c6335c4b" => :el_capitan
-    sha256 "1a64a50a6ee83aa53482f24ce05b32ee9c327d4ade0dd2d45378268e04e87104" => :yosemite
-    sha256 "b99018811975b4750b17793c1e597c912adc6204a397f47e649450bc3a95c932" => :x86_64_linux
-  end
 
   option "without-test", "Disable build-time checking (not recommended)"
   option "without-openmp", "Disable OpenMP"
 
   needs :openmp if build.with? "openmp"
 
-  conflicts "libbi"
-
-  depends_on :perl => "5.10"
+  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
@@ -123,12 +114,14 @@ class LibbiSbfnk < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
+    perl_dir = "#{Formula["perl"].bin}"
+    perl = perl_dir + "/perl"
 
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
+        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
@@ -139,16 +132,15 @@ class LibbiSbfnk < Formula
       (include/"thrust").install Dir["*"]
     end
 
-    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"
 
     system "make"
-    rm "t/010_cpu.t"
+    rm "t/010_cpu.t" # remove test that fails in superenv
     system "make", "test" if build.with? "test"
     system "make", "install"
 
     bin.install libexec/"bin/libbi"
     (libexec/"share/test").install "Test.bi", "test.conf"
-    perl_dir = `dirname $(which perl)`
     bin.env_script_all_files(libexec/"bin", :PATH => perl_dir.chomp.concat(":\$PATH"), :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"), :CPPFLAGS => "\$CPPFLAGS -I#{HOMEBREW_PREFIX}/include", :LDFLAGS => "\$LDFLAGS -L#{HOMEBREW_PREFIX}/lib", :LD_LIBRARY_PATH => "#{HOMEBREW_PREFIX}/lib:\$LD_LIBRARY_PATH", :CXX => ENV["CXX"])
   end
 
