@@ -123,7 +123,7 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
-    perl_dir = Formula["perl"].bin
+    perl_dir = "#{Formula["perl"].bin}"
     perl = perl_dir + "/perl"
 
     resources.each do |r|
@@ -144,7 +144,7 @@ class Libbi < Formula
     system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"
 
     system "make"
-    delete("t/010_cpu.t") # remove test that fails in superenv
+    rm "t/010_cpu.t" # remove test that fails in superenv
     system "make", "test" if build.with? "test"
     system "make", "install"
 
