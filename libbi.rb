@@ -17,8 +17,6 @@ class Libbi < Formula
     end
   end
 
-  bottle :disable, "Perl dependencies require this to be installed with the same perl version as it's run with"
-
   option "without-test", "Disable build-time checking (not recommended)"
   option "without-openmp", "Disable OpenMP"
 
@@ -26,7 +24,7 @@ class Libbi < Formula
 
   env :std
 
-  depends_on :perl => "5.10"
+  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
