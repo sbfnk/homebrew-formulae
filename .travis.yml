@@ -74,6 +74,7 @@ before_install:
 
 script:
   - brew tap linuxbrew/xorg
+  - brew tap homebrew/science
   - brew test-bot
 
 notifications:
