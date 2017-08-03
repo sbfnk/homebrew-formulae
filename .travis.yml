@@ -75,7 +75,16 @@ before_install:
   - export HOMEBREW_NO_GITHUB_API=1
 
 script:
-  - brew test-bot
+  - brew --env
+  - brew config
+  - brew readall --aliases sbfnk/libbi
+  - brew uses --recursive sbfnk/libbi/libbi-test
+  - brew fetch --retry autoconf automake boost bzip2 cmake curl gcc gpatch gsl hdf5 libtool m4 ncurses netcdf openblas openssl perl pkg-config qrupdate sphinx-doc szip unzip xz zlib
+  - brew fetch --retry sbfnk/libbi/libbi-test --force
+  - brew install --only-dependencies --verbose sbfnk/libbi/libbi-test
+  - brew install --verbose sbfnk/libbi/libbi-test
+  - brew audit sbfnk/libbi/libbi-test --online
+  - brew uninstall --force autoconf automake boost bzip2 cmake curl gcc gpatch gsl hdf5 libtool m4 ncurses netcdf openblas openssl perl pkg-config qrupdate sphinx-doc szip unzip xz zlib
 
 notifications:
   email:
