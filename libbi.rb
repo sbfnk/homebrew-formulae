@@ -32,8 +32,8 @@ class Libbi < Formula
   depends_on "automake" => :run
 
   resource "Test::Simple" do
-    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302086.tar.gz"
-    sha256 "21e4c93c52529a10ef970afcf2cdb5719bcfef5f71af09cad3675fcf021995b1"
+    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Stream-1.302027.tar.gz"
+    sha256 "e6d3e163dd658dd1f54859833390c820c07bc2ca9318686cbf06e4d78ffea7fb"
   end
 
   resource "Getopt::ArgvFile" do
