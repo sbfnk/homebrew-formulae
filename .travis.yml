@@ -113,12 +113,16 @@ script:
   - brew config
   - brew readall --aliases sbfnk/libbi
   - brew uses --recursive sbfnk/libbi/libbi
-  - brew fetch --retry autoconf automake boost bzip2 cmake curl gcc gpatch gsl hdf5 libtool m4 ncurses netcdf openblas openssl perl pkg-config qrupdate sphinx-doc szip unzip xz zlib
+  - brew fetch --retry autoconf automake berkeley-db boost bzip2 cmake curl expat gcc
   - brew fetch --retry sbfnk/libbi/libbi --force
   - brew install --only-dependencies --verbose sbfnk/libbi/libbi
   - brew install --verbose sbfnk/libbi/libbi
   - brew audit sbfnk/libbi/libbi --online
-  - brew uninstall --force autoconf automake boost bzip2 cmake curl gcc gpatch gsl hdf5 libtool m4 ncurses netcdf openblas openssl perl pkg-config qrupdate sphinx-doc szip unzip xz zlib
+  - brew linkage sbfnk/libbi/libbi
+  - brew linkage --test sbfnk/libbi/libbi
+  - brew test sbfnk/libbi/libbi --verbose
+  - brew uninstall --force sbfnk/libbi/libbi
+  - brew uninstall --force autoconf automake berkeley-db boost bzip2 cmake curl expat 
 
 notifications:
   email:
