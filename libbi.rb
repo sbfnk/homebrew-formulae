@@ -164,7 +164,7 @@ class Libbi < Formula
   test do
     cp Dir[libexec/"share/test/*"], testpath
     cd testpath do
-      system "#{bin}/libbi", "sample", "@test.conf", "--verbose"
+      system "#{bin}/libbi", "sample", "@test.conf"
       system "cat", ".Test/build_assert/config.log"
     end
   end
