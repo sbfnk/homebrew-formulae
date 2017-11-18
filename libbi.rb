@@ -149,7 +149,7 @@ class Libbi < Formula
       :PATH => perl_dir.chomp.concat(":\$PATH"),
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
       :CPPFLAGS => "\$CPPFLAGS -I#{HOMEBREW_PREFIX}/include",
-      :LDFLAGS => "\$LDFLAGS -L$(brew --prefix netcdf)/lib -L$(brew --prefix hdf5)/lib -L$(brew --prefix curl)/lib -lhdf5 -lhdf5_hl -lcurl",
+      :LD_LIBRARY_PATH => "$(brew --prefix netcdf)/lib:$(brew --prefix hdf5)/lib:$(brew --prefix curl)/lib:\$LD_LIBRARY_PATH",
       :CXX => ENV["CXX"],
     }
     bin.env_script_all_files(libexec/"bin", env)
