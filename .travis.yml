@@ -120,7 +120,7 @@ script:
   - brew audit sbfnk/libbi/libbi --online
   - brew linkage sbfnk/libbi/libbi
   - brew linkage --test sbfnk/libbi/libbi
-  - brew test sbfnk/libbi/libbi --verbose
+  - brew test --verbose sbfnk/libbi/libbi
   - brew uninstall --force sbfnk/libbi/libbi
   - brew uninstall --force autoconf automake berkeley-db boost bzip2 cmake curl expat 
 
