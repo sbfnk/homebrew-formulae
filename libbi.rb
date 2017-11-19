@@ -125,7 +125,7 @@ class Libbi < Formula
       (include/"thrust").install Dir["*"]
     end
 
-    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
+    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
     system "make"
     rm "t/010_cpu.t" # remove test that fails in superenv
