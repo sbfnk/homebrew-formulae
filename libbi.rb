@@ -12,9 +12,6 @@ class Libbi < Formula
   bottle :disable, "needs to be rebuilt with latest netcdf"
 
   option "without-test", "Disable build-time checking (not recommended)"
-  option "without-openmp", "Disable OpenMP"
-
-  needs :openmp if build.with? "openmp"
 
   depends_on "perl"
   depends_on "qrupdate"
