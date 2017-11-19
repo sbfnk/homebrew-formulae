@@ -113,7 +113,7 @@ class Libbi < Formula
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
-##        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
+        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
         system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"##, perl_flags
         system "make"
         system "make", "test" if build.with? "test"
