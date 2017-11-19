@@ -74,7 +74,12 @@ class Libbi < Formula
     sha256 "b3becd60165c38786d18285f770b8b06ebffe91797d8c00cc4730614382501ad"
   end
 
-  resource " ExtUtils::MakeMaker" do
+  resource "Encode::Locale" do
+    url "https://www.cpan.org/CPAN/authors/id/G/GA/GAAS/Encode-Locale-1.05.tar.gz"
+    sha256 "176fa02771f542a4efb1dbc2a4c928e8f4391bf4078473bd6040d8f11adb0ec1"
+  end
+
+  resource "ExtUtils::MakeMaker" do
     url "https://www.cpan.org/CPAN/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-7.30.tar.gz"
     sha256 "e081a8aa61c56565746bee998bf4c32926c030b84bb3f206e81714a1707f393c"
   end
@@ -114,6 +119,7 @@ class Libbi < Formula
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
+        # need to set TT_ACCEPT=y for Template library for non-interactive install
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
         system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
