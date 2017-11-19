@@ -13,140 +13,13 @@ class Libbi < Formula
 
   option "without-test", "Disable build-time checking (not recommended)"
 
-  depends_on :perl => "5.16"
+  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
   depends_on "boost"
   depends_on "automake" => :run
 
-
-  resource "Module::Build" do
-    # AWS::Signature4 requires Module::Build v0.4205 and above, while standard
-    # MacOS Perl installation has 0.4003
-    url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4222.tar.gz"
-    sha256 "e74b45d9a74736472b74830599cec0d1123f992760f9cd97104f94bee800b160"
-  end
-
-  resource "AWS::Signature4" do
-    url "https://cpan.metacpan.org/authors/id/L/LD/LDS/AWS-Signature4-1.02.tar.gz"
-    sha256 "20bbc16cb3454fe5e8cf34fe61f1a91fe26c3f17e449ff665fcbbb92ab443ebd"
-  end
-
-  resource "Clone" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GARU/Clone-0.38.tar.gz"
-    sha256 "9fb0534bb7ef6ca1f6cc1dc3f29750d6d424394d14c40efdc77832fad3cebde8"
-  end
-
-  resource "Date::Parse" do
-    url "https://cpan.metacpan.org/authors/id/G/GB/GBARR/TimeDate-2.30.tar.gz"
-    sha256 "75bd254871cb5853a6aa0403ac0be270cdd75c9d1b6639f18ecba63c15298e86"
-  end
-
-  resource "Devel::Caller" do
-    url "https://cpan.metacpan.org/authors/id/R/RC/RCLAMP/Devel-Caller-2.06.tar.gz"
-    sha256 "6a73ae6a292834255b90da9409205425305fcfe994b148dcb6d2d6ef628db7df"
-  end
-
-  resource "Encode::Locale" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/Encode-Locale-1.05.tar.gz"
-    sha256 "176fa02771f542a4efb1dbc2a4c928e8f4391bf4078473bd6040d8f11adb0ec1"
-  end
-
-  resource "Exporter::Tiny" do
-    url "https://cpan.metacpan.org/authors/id/T/TO/TOBYINK/Exporter-Tiny-0.042.tar.gz"
-    sha256 "8f1622c5ebbfbcd519ead81df7917e48cb16cc527b1c46737b0459c3908a023f"
-  end
-
-  resource "File::Listing" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/File-Listing-6.04.tar.gz"
-    sha256 "1e0050fcd6789a2179ec0db282bf1e90fb92be35d1171588bd9c47d52d959cf5"
-  end
-
-  resource "File::Remove" do
-    url "https://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/File-Remove-1.57.tar.gz"
-    sha256 "b3becd60165c38786d18285f770b8b06ebffe91797d8c00cc4730614382501ad"
-  end
-
-  resource "HTML::Parser" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTML-Parser-3.72.tar.gz"
-    sha256 "ec28c7e1d9e67c45eca197077f7cdc41ead1bb4c538c7f02a3296a4bb92f608b"
-  end
-
-  resource "HTML::Tagset" do
-    url "https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.20.tar.gz"
-    sha256 "adb17dac9e36cd011f5243881c9739417fd102fce760f8de4e9be4c7131108e2"
-  end
-
-  resource "HTTP::Cookies" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Cookies-6.01.tar.gz"
-    sha256 "f5d3ade383ce6389d80cb0d0356b643af80435bb036afd8edce335215ec5eb20"
-  end
-
-  resource "HTTP::Daemon" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Daemon-6.01.tar.gz"
-    sha256 "43fd867742701a3f9fcc7bd59838ab72c6490c0ebaf66901068ec6997514adc2"
-  end
-
-  resource "HTTP::Date" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Date-6.02.tar.gz"
-    sha256 "e8b9941da0f9f0c9c01068401a5e81341f0e3707d1c754f8e11f42a7e629e333"
-  end
-
-  resource "HTTP::Message" do
-    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/HTTP-Message-6.11.tar.gz"
-    sha256 "e7b368077ae6a188d99920411d8f52a8e5acfb39574d4f5c24f46fd22533d81b"
-  end
-
-  resource "HTTP::Negotiate" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/HTTP-Negotiate-6.01.tar.gz"
-    sha256 "1c729c1ea63100e878405cda7d66f9adfd3ed4f1d6cacaca0ee9152df728e016"
-  end
-
-  resource "Hash::Merge" do
-    url "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/Hash-Merge-0.200.tar.gz"
-    sha256 "47f9f03330b7595c94e73bdd17dc6682ba59d1cc89e63f4e319617f4bb122a64"
-  end
-
-  resource "IO::HTML" do
-    url "https://cpan.metacpan.org/authors/id/C/CJ/CJM/IO-HTML-1.001.tar.gz"
-    sha256 "ea78d2d743794adc028bc9589538eb867174b4e165d7d8b5f63486e6b828e7e0"
-  end
-
-  resource "IO::String" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/IO-String-1.08.tar.gz"
-    sha256 "2a3f4ad8442d9070780e58ef43722d19d1ee21a803bf7c8206877a10482de5a0"
-  end
-
-  resource "Canary::Stability" do
-    url "https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/Canary-Stability-2012.tar.gz"
-    sha256 "fd240b111d834dbae9630c59b42fae2145ca35addc1965ea311edf0d07817107"
-  end
-
-  resource "JSON::XS" do
-    url "https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/JSON-XS-3.02.tar.gz"
-    sha256 "5f6a5944887d75f1d34440a2d9e69ef12e23f434af23acb143fb0241f40b02be"
-  end
-
-  resource "LWP" do
-    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/libwww-perl-6.15.tar.gz"
-    sha256 "6f349d45c21b1ec0501c4437dfcb70570940e6c3d5bff783bd91d4cddead8322"
-  end
-
-  resource "LWP::MediaTypes" do
-    url "https://cpan.metacpan.org/authors/id/G/GA/GAAS/LWP-MediaTypes-6.02.tar.gz"
-    sha256 "18790b0cc5f0a51468495c3847b16738f785a2d460403595001e0b932e5db676"
-  end
-
-  resource "List::MoreUtils" do
-    url "https://cpan.metacpan.org/authors/id/R/RE/REHSACK/List-MoreUtils-0.419.tar.gz"
-    sha256 "5f8e65608f5dc583faa6a703d19d277ad46dfc1816e51f8ff34fb8322ed48615"
-  end
-
-  resource "Module::ScanDeps" do
-    url "https://cpan.metacpan.org/authors/id/R/RS/RSCHUPP/Module-ScanDeps-1.23.tar.gz"
-    sha256 "162b6f771197ad4662ac60c427d473b4c0a41cac476fa96b48556cce7fca040e"
-  end
 
   resource "Test::Simple" do
     url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302106.tar.gz"
@@ -242,7 +115,7 @@ class Libbi < Formula
         # need to set TT_ACCEPT=y for Template library for non-interactive install
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
         system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
-        system "make", "PERL5LIB=#{ENV["PERL5LIB"]}"
+        system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
       end
