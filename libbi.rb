@@ -242,7 +242,7 @@ class Libbi < Formula
         # need to set TT_ACCEPT=y for Template library for non-interactive install
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
         system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
-        system "make"
+        system "make", "PERL5LIB=#{ENV["PERL5LIB"]}"
         system "make", "test" if build.with? "test"
         system "make", "install"
       end
