@@ -111,7 +111,7 @@ class Libbi < Formula
       r.stage do
         next if r.name == "thrust"
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}"##, perl_flags
+        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
