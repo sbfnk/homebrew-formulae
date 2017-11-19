@@ -20,6 +20,13 @@ class Libbi < Formula
   depends_on "boost"
   depends_on "automake" => :run
 
+  resource "Module::Build" do
+    # AWS::Signature4 requires Module::Build v0.4205 and above, while standard
+    # MacOS Perl installation has 0.4003
+    url "https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4222.tar.gz"
+    sha256 "e74b45d9a74736472b74830599cec0d1123f992760f9cd97104f94bee800b160"
+  end
+
   resource "Test::Simple" do
     url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302106.tar.gz"
     sha256 "7d3620676a7610e07b0465a1a20e479e61b2757ad908d90ef1daea1f1af4fc30"
@@ -73,11 +80,6 @@ class Libbi < Formula
   resource "File::Remove" do
     url "https://www.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/File-Remove-1.57.tar.gz"
     sha256 "b3becd60165c38786d18285f770b8b06ebffe91797d8c00cc4730614382501ad"
-  end
-
-  resource "Encode::Locale" do
-    url "https://www.cpan.org/CPAN/authors/id/G/GA/GAAS/Encode-Locale-1.05.tar.gz"
-    sha256 "176fa02771f542a4efb1dbc2a4c928e8f4391bf4078473bd6040d8f11adb0ec1"
   end
 
   resource "inc::Module::Install::DSL" do
