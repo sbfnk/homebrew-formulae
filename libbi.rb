@@ -108,13 +108,15 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
+    perl_dir = Formula["perl"].bin.to_s
+    perl = perl_dir + "/perl"
 
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
         # need to set TT_ACCEPT=y for Template library for non-interactive install
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
+        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
