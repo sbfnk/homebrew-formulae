@@ -79,10 +79,6 @@ class Libbi < Formula
     sha256 "176fa02771f542a4efb1dbc2a4c928e8f4391bf4078473bd6040d8f11adb0ec1"
   end
 
-  resource "ExtUtils::MakeMaker" do
-    url "https://www.cpan.org/CPAN/authors/id/B/BI/BINGOS/ExtUtils-MakeMaker-7.30.tar.gz"
-    sha256 "e081a8aa61c56565746bee998bf4c32926c030b84bb3f206e81714a1707f393c"
-  end
   resource "inc::Module::Install::DSL" do
     url "https://www.cpan.org/CPAN/authors/id/E/ET/ETHER/Module-Install-1.18.tar.gz"
     sha256 "29068ac33502cec959844c206516c09cc4a847cb57327d41015f605153ca645e"
