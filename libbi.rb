@@ -13,6 +13,7 @@ class Libbi < Formula
 
   option "without-test", "Disable build-time checking (not recommended)"
 
+  depends_on :perl => "5.16"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
