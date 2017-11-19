@@ -1,20 +1,12 @@
 class Libbi < Formula
   desc "Bayesian state-space modelling on parallel computer hardware"
   homepage "http://libbi.org"
-  revision 6
+  revision 7
   head "https://github.com/libbi/LibBi.git"
 
   stable do
     url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
     sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
-
-    if build.without? "openmp"
-      patch do
-        # disable OpenMP if it is not used
-        url "https://raw.githubusercontent.com/Homebrew/formula-patches/08c981bbee01db804e8002868affbbda57a82436/libbi/libbi-1.3.0-openmp.patch"
-        sha256 "236d288c79a505626ad5435f09761af371a2a562c3c35b32310a0a9d92edb3cf"
-      end
-    end
   end
 
   bottle :disable, "needs to be rebuilt with latest netcdf"
@@ -32,8 +24,8 @@ class Libbi < Formula
   depends_on "automake" => :run
 
   resource "Test::Simple" do
-    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Stream-1.302027.tar.gz"
-    sha256 "e6d3e163dd658dd1f54859833390c820c07bc2ca9318686cbf06e4d78ffea7fb"
+    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302106.tar.gz"
+    sha256 "7d3620676a7610e07b0465a1a20e479e61b2757ad908d90ef1daea1f1af4fc30"
   end
 
   resource "Getopt::ArgvFile" do
@@ -124,8 +116,8 @@ class Libbi < Formula
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
-        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
+##        perl_flags = "TT_ACCEPT=y" if r.name == "Template"
+        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"##, perl_flags
         system "make"
         system "make", "test" if build.with? "test"
         system "make", "install"
@@ -136,21 +128,21 @@ class Libbi < Formula
       (include/"thrust").install Dir["*"]
     end
 
-    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}"
+    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
     system "make"
     rm "t/010_cpu.t" # remove test that fails in superenv
     system "make", "test" if build.with? "test"
     system "make", "install"
 
-    bin.install libexec/"bin/libbi"
     (libexec/"share/test").install "Test.bi", "test.conf"
+
     env = {
       :PATH => perl_dir.chomp.concat(":\$PATH"),
-      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
-      :CPPFLAGS => "\$CPPFLAGS -I#{HOMEBREW_PREFIX}/include",
-      :LD_LIBRARY_PATH => "$(brew --prefix netcdf)/lib:$(brew --prefix hdf5)/lib:$(brew --prefix curl)/lib:\$LD_LIBRARY_PATH",
-      :CXX => ENV["CXX"],
+      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB")
+##      :CPPFLAGS => "\$CPPFLAGS -I#{include}",
+##      :LDFLAGS => "-L#{Formula["netcdf"].opt_lib} -L#{Formula["hdf5"].opt_lib} -L#{Formula["curl"].opt_lib} -lhdf5 -lhdf5_hl -lcurl",
+##      :CXX => ENV["CXX"],
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
@@ -164,8 +156,7 @@ class Libbi < Formula
   test do
     cp Dir[libexec/"share/test/*"], testpath
     cd testpath do
-      system "#{bin}/libbi", "sample", "@test.conf", "--verbose"
-      system "cat", ".Test/build_assert/config.log"
+      system "#{bin}/libbi", "sample", "@test.conf"
     end
   end
 end
