@@ -9,8 +9,6 @@ class Libbi < Formula
     sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
   end
 
-  bottle :disable, "needs to be rebuilt with latest netcdf"
-
   option "without-test", "Disable build-time checking (not recommended)"
 
   depends_on "perl"
@@ -139,9 +137,6 @@ class Libbi < Formula
     env = {
       :PATH => perl_dir.chomp.concat(":\$PATH"),
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB")
-##      :CPPFLAGS => "\$CPPFLAGS -I#{include}",
-##      :LDFLAGS => "-L#{Formula["netcdf"].opt_lib} -L#{Formula["hdf5"].opt_lib} -L#{Formula["curl"].opt_lib} -lhdf5 -lhdf5_hl -lcurl",
-##      :CXX => ENV["CXX"],
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
