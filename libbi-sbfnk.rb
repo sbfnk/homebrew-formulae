@@ -1,6 +1,7 @@
 class LibbiSbfnk < Formula
   desc "Bayesian state-space modelling on parallel computer hardware (sbfnk fork, install with --HEAD)"
   homepage "http://libbi.org"
+  revision 8
   head "https://github.com/sbfnk/LibBi.git"
 
   stable do
