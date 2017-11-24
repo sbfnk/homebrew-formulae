@@ -16,11 +16,11 @@ before_install:
       git clone https://github.com/Linuxbrew/brew.git "$LINUXBREW";
       export PATH="$LINUXBREW/bin:$PATH";
       brew install --build-from-source perl;
-      brew update;
       brew tap sbfnk/libbi;
       chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+      brew update;
       brew tap sbfnk/libbi;
     fi
 
