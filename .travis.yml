@@ -39,8 +39,3 @@ script:
   - brew uninstall --force sbfnk/libbi/libbi-sbfnk
   - brew install libbi-sbfnk --HEAD;
   - brew test --HEAD libbi-sbfnk;
-
-# notifications:
-#   email:
-#     on_success: never
-#     on_failure: always
