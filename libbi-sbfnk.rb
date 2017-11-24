@@ -153,4 +153,4 @@ class LibbiSbfnk < Formula
       system "#{bin}/libbi", "sample", "@test.conf"
     end
   end
-e
+end
