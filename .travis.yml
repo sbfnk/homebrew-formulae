@@ -19,8 +19,8 @@ before_install:
     fi
 
 script:
-  - brew tap sbfnk/libbi;
   - brew update;
+  - brew tap sbfnk/libbi;
   - brew install libbi-sbfnk --HEAD;
   - brew test --HEAD libbi-sbfnk;
 
