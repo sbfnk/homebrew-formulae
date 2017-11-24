@@ -18,7 +18,7 @@ before_install:
       brew install --build-from-source perl;
       brew update;
       brew tap sbfnk/libbi;
-      chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb
+      chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       brew tap sbfnk/libbi;
