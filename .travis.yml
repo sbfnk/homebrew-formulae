@@ -115,7 +115,7 @@ script:
   - brew uses --recursive --HEAD sbfnk/libbi/libbi-sbfnk
   - brew fetch --retry autoconf automake berkeley-db boost bzip2 cmake curl expat gcc
   - brew fetch --retry --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew install --only-dependencies --verbose --HEAD sbfnk/libbi/libbi-sbfnk
+  - brew install --only-dependencies --verbose sbfnk/libbi/libbi-sbfnk
   - brew install --verbose --HEAD sbfnk/libbi/libbi-sbfnk
   - brew audit sbfnk/libbi/libbi-sbfnk --online
   - brew linkage sbfnk/libbi/libbi-sbfnk
