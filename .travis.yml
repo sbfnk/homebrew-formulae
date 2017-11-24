@@ -11,7 +11,7 @@ matrix:
   allow_failures:
     - os: linux
 
-script: ./travis/script.sh
+script: ./.travis/script.sh
 
 # notifications:
 #   email:
