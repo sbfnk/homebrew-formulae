@@ -112,7 +112,7 @@ script:
   - brew --env
   - brew config
   - brew readall --aliases sbfnk/libbi
-  - brew uses --recursive sbfnk/libbi/libbi-sbfnk
+  - brew uses --recursive --HEAD sbfnk/libbi/libbi-sbfnk
   - brew fetch --retry autoconf automake berkeley-db boost bzip2 cmake curl expat gcc
   - brew fetch --retry --HEAD sbfnk/libbi/libbi-sbfnk
   - brew install --only-dependencies --verbose --HEAD sbfnk/libbi/libbi-sbfnk
@@ -120,7 +120,7 @@ script:
   - brew audit sbfnk/libbi/libbi-sbfnk --online
   - brew linkage sbfnk/libbi/libbi-sbfnk
   - brew linkage --test sbfnk/libbi/libbi-sbfnk
-  - brew test --verbose sbfnk/libbi/libbi-sbfnk
+  - brew test --verbose --HEAD sbfnk/libbi/libbi-sbfnk
   - brew uninstall --force sbfnk/libbi/libbi-sbfnk
   - brew uninstall --force autoconf automake berkeley-db boost bzip2 cmake curl expat 
 
