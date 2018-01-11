@@ -30,6 +30,7 @@ script:
   - brew config
   - brew readall --aliases sbfnk/libbi
   - brew uses --recursive --HEAD sbfnk/libbi/libbi-sbfnk
+  - brew cask uninstall --force oclint
   - brew fetch --retry --HEAD sbfnk/libbi/libbi-sbfnk
   - brew install --only-dependencies --verbose sbfnk/libbi/libbi-sbfnk
   - brew install --verbose --HEAD sbfnk/libbi/libbi-sbfnk
