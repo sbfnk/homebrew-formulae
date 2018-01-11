@@ -18,10 +18,9 @@ class Libbi < Formula
   depends_on "boost"
   depends_on "automake" => :run
 
-
   resource "Test::Simple" do
-    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302106.tar.gz"
-    sha256 "7d3620676a7610e07b0465a1a20e479e61b2757ad908d90ef1daea1f1af4fc30"
+    url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302120.tar.gz"
+    sha256 "c82360092d4dacd6e3248b613fa00053072fe9cf55d022f1e0f427f51d04346c"
   end
 
   resource "Getopt::ArgvFile" do
