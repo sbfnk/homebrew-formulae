@@ -127,7 +127,6 @@ class Libbi < Formula
     system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
     system "make"
-    rm "t/010_cpu.t" # remove test that fails in superenv
     system "make", "test" if build.with? "test"
     system "make", "install"
 
