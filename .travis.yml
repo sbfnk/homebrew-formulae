@@ -15,6 +15,7 @@ before_install:
       LINUXBREW=/home/linuxbrew/.linuxbrew;
       git clone https://github.com/Linuxbrew/brew.git "$LINUXBREW";
       export PATH="$LINUXBREW/bin:$PATH";
+      brew update;
       brew install --build-from-source perl;
       brew tap sbfnk/libbi;
       chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb;
