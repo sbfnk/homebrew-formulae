@@ -1,27 +1,29 @@
 language: ruby
-rvm: 2.3.0
+rvm: system
 
 matrix:
   include:
     - os: linux
-      dist: trusty
-      sudo: required
+      sudo: false
     - os: osx
+      osx_image: xcode9
 
 before_install:
+  - export HOMEBREW_NO_AUTO_UPDATE=1
+  - export HOMEBREW_DEVELOPER=1
+  - export HOMEBREW_FORCE_VENDOR_RUBY=1
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
       sudo mkdir -p /home/linuxbrew;
       sudo chown "$USER" /home/linuxbrew;
       LINUXBREW=/home/linuxbrew/.linuxbrew;
       git clone https://github.com/Linuxbrew/brew.git "$LINUXBREW";
       export PATH="$LINUXBREW/bin:$PATH";
-      brew update;
       brew install --build-from-source perl;
       brew tap sbfnk/libbi;
       chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      brew update;
+      brew cask uninstall --force oclint;
       brew tap sbfnk/libbi;
     fi
 
@@ -30,7 +32,6 @@ script:
   - brew config
   - brew readall --aliases sbfnk/libbi
   - brew uses --recursive --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew cask uninstall --force oclint
   - brew fetch --retry --HEAD sbfnk/libbi/libbi-sbfnk
   - brew install --only-dependencies --verbose sbfnk/libbi/libbi-sbfnk
   - brew install --verbose --HEAD sbfnk/libbi/libbi-sbfnk
