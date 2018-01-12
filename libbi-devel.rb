@@ -1,10 +1,10 @@
-class Libbi < Formula
+class LibbiDevel < Formula
   desc "Bayesian state-space modelling on parallel computer hardware"
   homepage "http://libbi.org"
   url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
   sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
   revision 8
-  head "https://github.com/libbi/LibBi.git", :branch => develop
+  head "https://github.com/libbi/LibBi.git", :branch => "develop"
 
   depends_on "qrupdate"
   depends_on "netcdf"
