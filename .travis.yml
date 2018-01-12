@@ -31,14 +31,14 @@ script:
   - brew --env
   - brew config
   - brew readall --aliases sbfnk/libbi
-  - brew uses --recursive --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew fetch --retry --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew install --only-dependencies --verbose sbfnk/libbi/libbi-sbfnk
-  - brew install --verbose --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew audit sbfnk/libbi/libbi-sbfnk --online
-  - brew linkage sbfnk/libbi/libbi-sbfnk
-  - brew linkage --test sbfnk/libbi/libbi-sbfnk
-  - brew test --verbose --HEAD sbfnk/libbi/libbi-sbfnk
-  - brew uninstall --force sbfnk/libbi/libbi-sbfnk
-  - brew install libbi-sbfnk --HEAD
-  - brew test --HEAD libbi-sbfnk
+  - brew uses --recursive --HEAD sbfnk/libbi/libbi
+  - brew fetch --retry --HEAD sbfnk/libbi/libbi
+  - brew install --only-dependencies --verbose sbfnk/libbi/libbi
+  - brew install --verbose --HEAD sbfnk/libbi/libbi
+  - brew audit sbfnk/libbi/libbi --online
+  - brew linkage sbfnk/libbi/libbi
+  - brew linkage --test sbfnk/libbi/libbi
+  - brew test --verbose --HEAD sbfnk/libbi/libbi
+  - brew uninstall --force sbfnk/libbi/libbi
+  - brew install libbi --HEAD
+  - brew test --HEAD libbi
