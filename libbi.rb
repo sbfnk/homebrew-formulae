@@ -1,17 +1,10 @@
 class Libbi < Formula
   desc "Bayesian state-space modelling on parallel computer hardware"
   homepage "http://libbi.org"
-  revision 7
+  url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
+  sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
   head "https://github.com/libbi/LibBi.git"
 
-  stable do
-    url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
-    sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
-  end
-
-  option "without-test", "Disable build-time checking (not recommended)"
-
-  depends_on "perl"
   depends_on "qrupdate"
   depends_on "netcdf"
   depends_on "gsl"
@@ -105,17 +98,14 @@ class Libbi < Formula
 
   def install
     ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
-    perl_dir = Formula["perl"].bin.to_s
-    perl = perl_dir + "/perl"
 
     resources.each do |r|
       r.stage do
         next if r.name == "thrust"
         # need to set TT_ACCEPT=y for Template library for non-interactive install
         perl_flags = "TT_ACCEPT=y" if r.name == "Template"
-        system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
+        system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", perl_flags
         system "make"
-        system "make", "test" if build.with? "test"
         system "make", "install"
       end
     end
@@ -124,17 +114,15 @@ class Libbi < Formula
       (include/"thrust").install Dir["*"]
     end
 
-    system perl, "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
+    system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
     system "make"
-    system "make", "test" if build.with? "test"
     system "make", "install"
 
     (libexec/"share/test").install "Test.bi", "test.conf"
 
     env = {
-      :PATH => perl_dir.chomp.concat(":\$PATH"),
-      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB")
+      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
