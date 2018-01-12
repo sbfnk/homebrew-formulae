@@ -135,7 +135,16 @@ class Libbi < Formula
   end
 
   test do
+    system "echo", ENV["PERL5LIB"]
+    system "cat", "#{bin}/libbi"
     ENV.prepend "PERL5LIB", libexec/"lib/perl5"
+    system "echo", ENV["PERL5LIB"]
+    print Dir.glob(ENV["PERL5LIB"])
+    print "\n"
+    print Dir.glob(ENV["PERL5LIB"] + "/*")
+    print Dir.glob(ENV["PERL5LIB"] + "/*/*")
+    print "\n"
+    system "perl", "-e", "'print join \", \", @INC;'"
     cp Dir[libexec/"share/test/*"], testpath
     cd testpath do
       system "#{bin}/libbi", "sample", "@test.conf"
