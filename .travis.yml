@@ -20,7 +20,7 @@ before_install:
       export PATH="$LINUXBREW/bin:$PATH";
       brew install --build-from-source perl;
       brew tap sbfnk/libbi;
-      chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi-sbfnk.rb;
+      chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       brew cask uninstall --force oclint;
