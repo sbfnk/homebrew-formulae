@@ -135,9 +135,10 @@ class Libbi < Formula
   end
 
   test do
+    ENV.prepend "PERL5LIB", libexec/"lib/perl5"
     cp Dir[libexec/"share/test/*"], testpath
     cd testpath do
-      system "libbi", "sample", "@test.conf"
+      system "#{bin}/libbi", "sample", "@test.conf"
     end
   end
 end
