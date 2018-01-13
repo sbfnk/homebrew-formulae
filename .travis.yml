@@ -42,3 +42,4 @@ script:
   - brew uninstall --force sbfnk/libbi/libbi
   - brew install libbi --HEAD
   - brew test --HEAD libbi
+  - env
