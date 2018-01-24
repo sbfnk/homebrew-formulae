@@ -4,7 +4,7 @@ rvm: system
 matrix:
   include:
     - os: linux
-      sudo: false
+      sudo: required
     - os: osx
       osx_image: xcode9
 
@@ -17,8 +17,9 @@ before_install:
       sudo chown "$USER" /home/linuxbrew;
       LINUXBREW=/home/linuxbrew/.linuxbrew;
       git clone https://github.com/Linuxbrew/brew.git "$LINUXBREW";
-      export PATH="$LINUXBREW/bin:$PATH";
+      export PATH="$LINUXBREW/bin:$LINUXBREW/sbin:$PATH";
       brew tap sbfnk/libbi;
+      brew install gcc;
       chmod 644 /home/linuxbrew/.linuxbrew/Library/Taps/sbfnk/homebrew-libbi/libbi.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
