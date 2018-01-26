@@ -129,6 +129,8 @@ class Libbi < Formula
 
     env = {
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
+      :LDFLAGS => "\$LDFLAGS -L$(brew --prefix)/lib",
+      :CPATH => ENV["PERL5LIB"].chomp.concat(":$(brew --prefix)/include"),
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
