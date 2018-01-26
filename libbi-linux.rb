@@ -1,4 +1,4 @@
-class Libbi < Formula
+class LibbiLinux < Formula
   desc "Bayesian state-space modelling on parallel computer hardware"
   homepage "http://libbi.org"
   url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
@@ -127,8 +127,15 @@ class Libbi < Formula
 
     (libexec/"share/test").install "Test.bi", "test.conf"
 
+    ldflags = "".dup
+    ldflags << (ENV["HOMEBREW_DYNAMIC_LINKER"] ? "-Wl,--dynamic-linker=" + ENV["HOMEBREW_DYNAMIC_LINKER"] + " " : "")
+    ldflags << (ENV["HOMEBREW_RPATH_PATHS"] ? "-Wl,-rpath=" + ENV["HOMEBREW_RPATH_PATHS"] + " " : "")
+    ldflags << "-L#{HOMEBREW_PREFIX}/lib"
+
     env = {
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
+      :CPATH => "#{HOMEBREW_PREFIX}/include".chomp.concat(":$CPATH"),
+      :LDFLAGS => ldflags,
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
