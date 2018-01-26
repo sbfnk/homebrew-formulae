@@ -32,7 +32,7 @@ script:
   - brew readall --aliases sbfnk/libbi
   - brew uses --recursive --HEAD "sbfnk/libbi/$FORMULA"
   - brew fetch --retry --HEAD "sbfnk/libbi/$FORMULA"
-  - brew install --only-dependencies --verbose "sbfnk/libbi/$FORMULA"
+  - brew install --only-dependencies --verbose "sbfnk/libbi/$FORMULA"; true
   - brew install --verbose --HEAD "sbfnk/libbi/$FORMULA"
   - brew audit "sbfnk/libbi/$FORMULA" --online
   - brew linkage "sbfnk/libbi/$FORMULA"
