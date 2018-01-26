@@ -42,4 +42,5 @@ script:
   - brew uninstall --force sbfnk/libbi/libbi
   - brew install libbi --HEAD
   - brew test --HEAD libbi
+  - libbi sample --model-file $(brew --prefix libbi)/libexec/share/test/Test.bi
   - env
