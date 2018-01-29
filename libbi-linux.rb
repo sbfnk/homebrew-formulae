@@ -136,6 +136,7 @@ class LibbiLinux < Formula
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
       :CPATH => "#{HOMEBREW_PREFIX}/include".chomp.concat(":$CPATH"),
       :LDFLAGS => ldflags,
+      :LD_LIBRARY_PATH => "$(brew --prefix netcdf)/lib:$(brew --prefix hdf5)/lib:$(brew --prefix curl)/lib:\$LD_LIBRARY_PATH",
     }
     bin.env_script_all_files(libexec/"bin", env)
   end
