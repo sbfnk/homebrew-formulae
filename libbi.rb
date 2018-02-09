@@ -117,11 +117,6 @@ class Libbi < Formula
 
     system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
-    # Disable dynamic selection of perl which may cause segfault when an
-    # incompatible perl is picked up.
-    # See, e.g., https://github.com/Homebrew/homebrew-core/issues/4936
-    inreplace "script/libbi", "#!/usr/bin/env perl", "#!/usr/bin/perl"
-
     system "make"
     system "make", "install"
 
