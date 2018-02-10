@@ -3,14 +3,13 @@ class Libbi < Formula
   homepage "http://libbi.org"
   url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
   sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
-  revision 8
   head "https://github.com/libbi/LibBi.git"
 
-  depends_on "qrupdate"
-  depends_on "netcdf"
-  depends_on "gsl"
-  depends_on "boost"
   depends_on "automake" => :run
+  depends_on "boost"
+  depends_on "gsl"
+  depends_on "netcdf"
+  depends_on "qrupdate"
 
   resource "Test::Simple" do
     url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302120.tar.gz"
@@ -117,6 +116,11 @@ class Libbi < Formula
 
     system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
+    # Disable dynamic selection of perl which may cause segfault when an
+    # incompatible perl is picked up.
+    # See, e.g., https://github.com/Homebrew/homebrew-core/issues/4936
+    inreplace "script/libbi", "#!/usr/bin/env perl", "#!/usr/bin/perl"
+
     system "make"
     system "make", "install"
 
@@ -126,12 +130,6 @@ class Libbi < Formula
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
     }
     bin.env_script_all_files(libexec/"bin", env)
-  end
-
-  def caveats; <<-EOS
-    libbi must be run with the same version of perl it was installed with.
-    Changing perl versions might require a reinstall of libbi.
-    EOS
   end
 
   test do
