@@ -3,6 +3,7 @@ class Libbi < Formula
   homepage "http://libbi.org"
   url "https://github.com/libbi/LibBi/archive/1.3.0.tar.gz"
   sha256 "0dd313dd71e72b2f16ca9074800fc2fa8bf585bec3b87a750ff27e467a9826d0"
+  revision 8
   head "https://github.com/libbi/LibBi.git"
 
   depends_on "automake" => :run
