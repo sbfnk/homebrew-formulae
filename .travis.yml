@@ -41,4 +41,4 @@ script:
   - brew uninstall --force "sbfnk/libbi/$FORMULA"
   - brew install "sbfnk/libbi/$FORMULA" --HEAD
   - brew test --HEAD "sbfnk/libbi/$FORMULA"
-  - libbi sample --model-file $(brew --prefix $FORMULA)/libexec/share/test/Test.bi
+  - libbi sample --model-file $(brew --prefix $FORMULA)/share/libbi/Test.bi
