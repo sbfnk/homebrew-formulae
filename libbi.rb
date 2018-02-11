@@ -127,7 +127,6 @@ class Libbi < Formula
 
     pkgshare.install "Test.bi", "test.conf"
 
-    bin.env_script_all_files(libexec/"bin", env)
   end
 
   test do
