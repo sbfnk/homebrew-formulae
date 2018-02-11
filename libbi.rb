@@ -111,9 +111,7 @@ class Libbi < Formula
       end
     end
 
-    resource("thrust").stage do
-      (include/"thrust").install Dir["*"]
-    end
+    (include/"thrust").install resource("thrust")
 
     system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
