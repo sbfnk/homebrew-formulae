@@ -130,8 +130,6 @@ class Libbi < Formula
 
   test do
     cp Dir[pkgshare/"Test.bi", pkgshare/"test.conf"], testpath
-    cd testpath do
-      system "#{bin}/libbi", "sample", "@test.conf"
-    end
+    system "#{bin}/libbi", "sample", "@test.conf"
   end
 end
