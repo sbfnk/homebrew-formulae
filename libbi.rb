@@ -123,7 +123,7 @@ class Libbi < Formula
     system "make"
     system "make", "install"
 
-    (libexec/"share/test").install "Test.bi", "test.conf"
+    pkgshare.install "Test.bi", "test.conf"
 
     env = {
       :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
@@ -132,7 +132,7 @@ class Libbi < Formula
   end
 
   test do
-    cp Dir[libexec/"share/test/*"], testpath
+    cp Dir[pkgshare/"Test.bi", pkgshare/"test.conf"], testpath
     cd testpath do
       system "#{bin}/libbi", "sample", "@test.conf"
     end
