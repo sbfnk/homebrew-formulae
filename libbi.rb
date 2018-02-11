@@ -125,9 +125,6 @@ class Libbi < Formula
 
     pkgshare.install "Test.bi", "test.conf"
 
-    env = {
-      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
-    }
     bin.env_script_all_files(libexec/"bin", env)
   end
 
