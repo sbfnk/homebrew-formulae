@@ -125,7 +125,7 @@ class LibbiLinux < Formula
     system "make"
     system "make", "install"
 
-    (libexec/"share/test").install "Test.bi", "test.conf"
+    pkgshare.install "Test.bi", "test.conf"
 
     ldflags = "".dup
     ldflags << (ENV["HOMEBREW_DYNAMIC_LINKER"] ? "-Wl,--dynamic-linker=" + ENV["HOMEBREW_DYNAMIC_LINKER"] + " " : "")
@@ -149,8 +149,6 @@ class LibbiLinux < Formula
 
   test do
     cp Dir[libexec/"share/test/*"], testpath
-    cd testpath do
-      system "#{bin}/libbi", "sample", "@test.conf"
-    end
+    system "#{bin}/libbi", "sample", "@test.conf"
   end
 end
