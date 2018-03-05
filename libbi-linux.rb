@@ -6,11 +6,12 @@ class LibbiLinux < Formula
   revision 8
   head "https://github.com/libbi/LibBi.git"
 
-  depends_on "qrupdate"
-  depends_on "netcdf"
-  depends_on "gsl"
-  depends_on "boost"
   depends_on "automake" => :run
+  depends_on "boost"
+  depends_on "gsl"
+  depends_on "netcdf"
+  depends_on "perl" unless OS.mac?
+  depends_on "qrupdate"
 
   resource "Test::Simple" do
     url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302120.tar.gz"
@@ -111,9 +112,7 @@ class LibbiLinux < Formula
       end
     end
 
-    resource("thrust").stage do
-      (include/"thrust").install Dir["*"]
-    end
+    (include/"thrust").install resource("thrust")
 
     system "perl", "Makefile.PL", "INSTALL_BASE=#{libexec}", "INSTALLSITESCRIPT=#{bin}"
 
@@ -141,14 +140,9 @@ class LibbiLinux < Formula
     bin.env_script_all_files(libexec/"bin", env)
   end
 
-  def caveats; <<-EOS
-    libbi must be run with the same version of perl it was installed with.
-    Changing perl versions might require a reinstall of libbi.
-    EOS
-  end
-
   test do
-    cp Dir[libexec/"share/test/*"], testpath
+    cp Dir[pkgshare/"Test.bi", pkgshare/"test.conf"], testpath
     system "#{bin}/libbi", "sample", "@test.conf"
+    assert_predicate testpath/"test.nc", :exist?
   end
 end
