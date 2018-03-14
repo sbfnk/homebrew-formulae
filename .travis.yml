@@ -41,5 +41,3 @@ script:
   - brew uninstall --force "sbfnk/libbi/$FORMULA"
   - brew install "sbfnk/libbi/$FORMULA" --HEAD
   - brew test --HEAD "sbfnk/libbi/$FORMULA"
-  - libbi sample --model-file $(brew --prefix $FORMULA)/share/libbi/Test.bi
-  - cat .Test/build_assert_openmp_sm_30/autogen.log
