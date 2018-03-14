@@ -137,7 +137,7 @@ class LibbiLinux < Formula
       :LDFLAGS => ldflags,
       :LD_LIBRARY_PATH => "$(brew --prefix netcdf)/lib:$(brew --prefix hdf5)/lib:$(brew --prefix curl)/lib:\$LD_LIBRARY_PATH",
     }
-    bin.env_script_all_files(libexec/"bin", env)
+    bin.env_script_all_files(libexec+"bin", env)
   end
 
   test do
