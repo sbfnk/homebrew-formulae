@@ -3,7 +3,6 @@ class LibbiLinux < Formula
   homepage "http://libbi.org"
   url "https://github.com/libbi/LibBi/archive/1.4.0.tar.gz"
   sha256 "fafe7579510e88fce50a2de26b561d2b0dacdbc7d1bf0fab0680a603353f5fa3"
-  revision 1
   head "https://github.com/libbi/LibBi.git"
 
   depends_on "automake"
