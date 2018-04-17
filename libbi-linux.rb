@@ -6,7 +6,7 @@ class LibbiLinux < Formula
   revision 8
   head "https://github.com/libbi/LibBi.git"
 
-  depends_on "automake" => :run
+  depends_on "automake"
   depends_on "boost"
   depends_on "gsl"
   depends_on "netcdf"
