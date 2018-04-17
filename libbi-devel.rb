@@ -10,7 +10,7 @@ class LibbiDevel < Formula
   depends_on "netcdf"
   depends_on "gsl"
   depends_on "boost"
-  depends_on "automake" => :run
+  depends_on "automake"
 
   resource "Test::Simple" do
     url "https://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-1.302120.tar.gz"
