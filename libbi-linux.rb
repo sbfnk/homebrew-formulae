@@ -125,19 +125,7 @@ class LibbiLinux < Formula
     system "make", "install"
 
     pkgshare.install "Test.bi", "test.conf"
-
-    ldflags = "".dup
-    ldflags << (ENV["HOMEBREW_DYNAMIC_LINKER"] ? "-Wl,--dynamic-linker=" + ENV["HOMEBREW_DYNAMIC_LINKER"] + " " : "")
-    ldflags << (ENV["HOMEBREW_RPATH_PATHS"] ? "-Wl,-rpath=" + ENV["HOMEBREW_RPATH_PATHS"] + " " : "")
-    ldflags << "-L#{HOMEBREW_PREFIX}/lib"
-
-    env = {
-      :PERL5LIB => ENV["PERL5LIB"].chomp.concat(":$PERL5LIB"),
-      :CPATH => "#{HOMEBREW_PREFIX}/include".chomp.concat(":$CPATH"),
-      :LDFLAGS => ldflags,
-      :LD_LIBRARY_PATH => "$(brew --prefix netcdf)/lib:$(brew --prefix hdf5)/lib:$(brew --prefix curl)/lib:\$LD_LIBRARY_PATH",
-    }
-    bin.env_script_all_files(libexec+"bin", env)
+    bin.env_script_all_files(libexec+"bin", :PERL5LIB => ENV["PERL5LIB"])
   end
 
   test do
