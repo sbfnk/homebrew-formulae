@@ -15,7 +15,7 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)";
       LINUXBREW="/home/linuxbrew/.linuxbrew";
-      FORMULA="libbi-linux";
+      FORMULA="libbi";
       export PATH="$LINUXBREW/bin:$LINUXBREW/sbin:$PATH";
       brew tap sbfnk/libbi;
       chmod 644 $LINUXBREW/Homebrew/Library/Taps/sbfnk/homebrew-libbi/"$FORMULA".rb;
