@@ -15,13 +15,11 @@ before_install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)";
       LINUXBREW="/home/linuxbrew/.linuxbrew";
-      FORMULA="libbi";
       export PATH="$LINUXBREW/bin:$LINUXBREW/sbin:$PATH";
       brew tap sbfnk/libbi;
-      chmod 644 $LINUXBREW/Homebrew/Library/Taps/sbfnk/homebrew-libbi/"$FORMULA".rb;
+      chmod 644 $LINUXBREW/Homebrew/Library/Taps/sbfnk/homebrew-libbi/libbi.rb;
     fi
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      export FORMULA="libbi";
       brew cask uninstall --force oclint;
       brew tap sbfnk/libbi;
     fi
@@ -31,14 +29,14 @@ script:
   - brew --env
   - brew config
   - brew readall --aliases sbfnk/libbi
-  - brew uses --recursive --HEAD "sbfnk/libbi/$FORMULA"
-  - brew fetch --retry --HEAD "sbfnk/libbi/$FORMULA"
-  - brew install --only-dependencies --verbose "sbfnk/libbi/$FORMULA"; true
-  - brew install --verbose --HEAD "sbfnk/libbi/$FORMULA"
-  - brew audit "sbfnk/libbi/$FORMULA" --online
-  - brew linkage "sbfnk/libbi/$FORMULA"
-  - brew linkage --test "sbfnk/libbi/$FORMULA"
-  - brew test --verbose --HEAD "sbfnk/libbi/$FORMULA"
-  - brew uninstall --force "sbfnk/libbi/$FORMULA"
-  - brew install "sbfnk/libbi/$FORMULA" --HEAD
-  - brew test --HEAD "sbfnk/libbi/$FORMULA"
+  - brew uses --recursive --HEAD "sbfnk/libbi/libbi"
+  - brew fetch --retry --HEAD "sbfnk/libbi/libbi"
+  - brew install --only-dependencies --verbose "sbfnk/libbi/libbi"; true
+  - brew install --verbose --HEAD "sbfnk/libbi/libbi"
+  - brew audit "sbfnk/libbi/libbi" --online
+  - brew linkage "sbfnk/libbi/libbi"
+  - brew linkage --test "sbfnk/libbi/libbi"
+  - brew test --verbose --HEAD "sbfnk/libbi/libbi"
+  - brew uninstall --force "sbfnk/libbi/libbi"
+  - brew install "sbfnk/libbi/libbi" --HEAD
+  - brew test --HEAD "sbfnk/libbi/libbi"
