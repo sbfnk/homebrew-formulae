@@ -27,6 +27,7 @@ before_install:
     fi
 
 script:
+  - brew update
   - brew --env
   - brew config
   - brew readall --aliases sbfnk/libbi
