@@ -4,7 +4,7 @@ class Oauth2ms < Formula
   desc "XOAUTH2 compatible O365 token fetcher"
   homepage "https://github.com/harishkrupo/oauth2ms"
   url "https://github.com/sbfnk/oauth2ms/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "c2de22b6d4a3c7f9b41efcfd6b39d1438f85b9dd0022cecd4dff0105e2904aa3"
+  sha256 "708de235f2b6e5d895422297cf80a153c3d436c4290bc6a1966fdfba98be1177"
   license "Apache-2.0"
 
   depends_on "isync"
