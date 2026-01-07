@@ -3,13 +3,12 @@ class Oauth2ms < Formula
 
   desc "XOAUTH2 compatible O365 token fetcher"
   homepage "https://github.com/harishkrupo/oauth2ms"
-  url "https://github.com/sbfnk/oauth2ms/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "708de235f2b6e5d895422297cf80a153c3d436c4290bc6a1966fdfba98be1177"
+  url "https://raw.githubusercontent.com/harishkrupo/oauth2ms/main/oauth2ms"
+  sha256 "e8a96267b4cc1e32d830c5548b415a5c6f11ceef3b11e0a02446ed4e3840d151"
+  version "2021.01.18"
   license "Apache-2.0"
 
-  depends_on "isync"
-  depends_on "python"
-  depends_on "rust" => :build
+  depends_on "python@3.12"
 
   resource "certifi" do
     url "https://files.pythonhosted.org/packages/0f/bd/1d41ee578ce09523c81a15426705dd20969f5abf006d1afe8aeff0dd776a/certifi-2024.12.14.tar.gz"
@@ -72,20 +71,22 @@ class Oauth2ms < Formula
   end
 
   def install
-    # ENV.deparallelize  # if your formula fails when building in parallel
-    virtualenv_install_with_resources
+    # Create virtualenv and install dependencies
+    venv = virtualenv_create(libexec, "python3.12")
+    venv.pip_install resources
+
+    # Install the script - it's downloaded as a single file named "oauth2ms"
+    # Rewrite shebang to use virtualenv python
+    script = buildpath/"oauth2ms"
+    inreplace script, "#!/usr/bin/python3", "#!#{libexec}/bin/python3"
+    script.chmod 0755
+    libexec.install script
+
+    # Create symlink in bin
+    bin.install_symlink libexec/"oauth2ms"
   end
 
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! For Homebrew/homebrew-core
-    # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test oauth2ms`. Options passed
-    # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
-    #
-    # The installed folder is not in the path, so use the entire path to any
-    # executables being tested: `system "#{bin}/program", "do", "something"`.
-    system "false"
+    assert_match "usage:", shell_output("#{bin}/oauth2ms --help")
   end
 end
