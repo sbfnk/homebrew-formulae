@@ -9,6 +9,7 @@ class Oauth2ms < Formula
   license "Apache-2.0"
 
   depends_on "python@3.12"
+  depends_on "rust" => :build
 
   resource "certifi" do
     url "https://files.pythonhosted.org/packages/0f/bd/1d41ee578ce09523c81a15426705dd20969f5abf006d1afe8aeff0dd776a/certifi-2024.12.14.tar.gz"
